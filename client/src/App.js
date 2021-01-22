@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from './pages/login/login.component';
+import './styles/main.scss';
 
 
 const App = () => {
