@@ -7,10 +7,10 @@
     margin: 10rem auto;
     width: 30rem; 
     height: 25rem;
-    border-radius: 5px;
+    
    
     &__form{
-        border: solid 2px;
+       // border: solid 2px;
         padding: 1rem;
     }
 
@@ -21,36 +21,45 @@
 
     &__username-input{
         display: block;
-        
+        width: 100%;
+        padding: .3rem;
     }
 
     &__username-label{
         display: block;
-        margin-top: 5.5rem;
+        margin-top: 1rem;
+        font-size: 1.3rem;
     }
 
 
     &__password-input{
         display: block;
+        width: 100%;
+        padding: .3rem;
     }
 
     &__password-label{
         display: block;
         margin-top: 1.5rem;
+        font-size: 1.3rem;
     }
 
 
     &__button--google{
         margin-top: 1rem;
-        margin-left: 10rem;
+        margin-left: 7rem;
         width: 10rem;
         position: relative;
     }
 
     &__button{
-        margin-top: 1rem;
+        margin-top: 3rem;
         width: 100%;
-        
+        transition: all .15s;
+        &:hover{
+            background-color: black;
+            color: white;
+        }
     }
 }
 
