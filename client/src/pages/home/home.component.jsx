@@ -1,9 +1,15 @@
 import React from 'react';
 import './home.styles.scss';
+import { connect } from 'react-redux';
+import SideBar from '../../components/sidebar/siderbar.component';
 
-const Home = () => {
-    return(<h1>Home Page</h1>);
 
+const Home = ({user}) => {
+    return(<SideBar/>);
 }
 
-export default Home;
+const mapStateToProps = state => ({
+    user: state.currentUser
+})
+
+export default connect(mapStateToProps, null)(Home);

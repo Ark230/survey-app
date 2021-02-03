@@ -6,6 +6,13 @@
     box-sizing: inherit;
 }
 
+a:visited,
+a:link{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
 body{
     font-size: 62.5%;
     box-sizing: border-box;

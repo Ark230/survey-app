@@ -17,6 +17,11 @@ const SignIn = ({currentUser, setCurrentUser}) => {
         console.log(currentUser);
     }
 
+    const handleGoogleSubmit = event => {
+        event.preventDefault();
+        signInWithGoogle();
+    }
+
   const handleChange = event => {
         const {value, name} = event.target;
         setUser({...user, [name] : value });
@@ -31,7 +36,7 @@ const SignIn = ({currentUser, setCurrentUser}) => {
             <form className="sign-in__form">
                     <h2 className="sign-in--primary-header">Sign In</h2>
 
-                    <button className="button sign-in__button--google" onClick={signInWithGoogle}>
+                    <button className="button sign-in__button--google" onClick={handleGoogleSubmit}>
                         <img src={GoogleLogo} alt="Google Logo" className="google-logo"/>    
                         <span className="">Google</span>
                     </button>
