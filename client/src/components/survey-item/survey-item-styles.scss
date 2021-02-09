@@ -1,0 +1,11 @@
+.survey-list__item{
+    border: 1px solid black;
+    height: 5rem;
+    padding: .5rem;
+
+    &:not(:last-child){
+        margin-bottom: 1rem;
+    }
+
+
+}

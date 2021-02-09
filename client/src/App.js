@@ -28,8 +28,7 @@ const App = ({setCurrentUser, userD}) => {
         <div>
             <Switch>
                 <Route exact path="/signIn" render={() => userD ? (<Redirect to="/"/>) : (<Login/>)}/>
-                <Route exact path="/" component={Home}/>
-                
+                <Route path="/" component={Home}/>
             </Switch>
         </div>
     );
