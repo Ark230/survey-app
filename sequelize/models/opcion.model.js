@@ -12,8 +12,11 @@ const Option = sequelize.define('Option', {
     descripcion: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    id_pregunta:{
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
-
   }, {
         tableName: 'OPCION',
         timestamps: false

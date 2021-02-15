@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import SideBar from '../../components/sidebar/siderbar.component';
 import SurveyManagement from '../survey-management/survey-management.component';
 import { Switch, Route } from 'react-router-dom';
+import SurveyUpdate from '../survey-update/survey-update.component';
 
 
 const Home = ({user}) => {
@@ -12,6 +13,7 @@ const Home = ({user}) => {
             <SideBar/>
             <Switch>
                  <Route exact path="/manage" component={SurveyManagement}/>
+                 <Route exact path="/update" component={SurveyUpdate}/>
             </Switch>
         </div>    
 

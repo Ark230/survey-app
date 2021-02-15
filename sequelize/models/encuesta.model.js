@@ -13,15 +13,10 @@ const Survey = sequelize.define('Survey', {
       type: DataTypes.DATE,
       allowNull: false
     },
-    usuario_id: {
+    id_usuario: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    preguntas: {
-        type: DataTypes.STRING,
-        allowNull: false
     }
-
   }, {
         tableName: 'ENCUESTA',
         timestamps: false

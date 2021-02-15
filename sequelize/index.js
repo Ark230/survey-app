@@ -1,14 +1,13 @@
 const {Sequelize} = require('sequelize');
 const User = require('./models/user.model');
 const Option = require('./models/opcion.model');
-const QuestionPerOption = require('./models/pregunta_x_opcion.model');
 const Question = require('./models/pregunta.model');
 const UserAnswer = require('./models/respuesta_usuario.model');
 const Survey = require('./models/encuesta.model');
 
 
-Survey.hasOne(Question, {foreignKey: 'usuario_id'});
-QuestionPerOption.hasMany(Option, {foreignKey: 'id_opcion'});
+Survey.hasOne(User, {foreignKey: 'usuario_id'});
+Question.hasOne(Survey, {foreignKey: 'id_encuesta'});
 UserAnswer.hasOne(User, {foreignKey: 'id_usuario'});
 UserAnswer.hasOne(Question, {foreignKey: 'id_pregunta'});
 UserAnswer.hasOne(Option, {foreignKey: 'id_respuesta'});

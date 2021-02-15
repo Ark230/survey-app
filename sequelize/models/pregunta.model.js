@@ -12,6 +12,10 @@ const Question = sequelize.define('Question', {
         descripcion:{
             type: DataTypes.STRING,
             allowNull:false
+        },
+        id_encuesta:{
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
      },  
     {

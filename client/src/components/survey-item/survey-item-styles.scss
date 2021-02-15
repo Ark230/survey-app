@@ -2,9 +2,29 @@
     border: 1px solid black;
     height: 5rem;
     padding: .5rem;
+    position: relative;
 
     &:not(:last-child){
-        margin-bottom: 1rem;
+        margin-bottom: 3rem;
+    }
+
+    &--info{
+        font-size: 1rem;
+    }
+
+    &--date{
+        position: absolute;
+        top: .6rem;
+        right: 1.6rem;
+        font-size: .9rem;
+//         top: 8px;
+//   right: 16px;
+    }
+
+    .item-button{
+        position: absolute;
+        bottom:8px;
+        right: 16px;
     }
 
 
