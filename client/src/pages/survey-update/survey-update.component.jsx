@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './survey-update.styles.scss';
 
 
 
-const SurveyUpdate = () => {
+const SurveyUpdate = ({id}) => {
+    const [surveyQuestions, setSurveyQuestions] = useState({});
+
+    useEffect(() => {
+        const getSurveyQuestions = async () => {
+            const response = await fetch(`http://localhost:4000/manage/survey/${id}`);
+            const questions = await response.json();
+            setSurveyQuestions(questions);
+        }
+
+        getSurveyQuestions();
+        
+    }, [])
 
     return(
         <div className="survey-update-container">

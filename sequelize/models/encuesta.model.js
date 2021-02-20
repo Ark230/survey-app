@@ -1,12 +1,10 @@
 const {DataTypes} = require("sequelize");
-const sequelize = require('../../util/database')
-
+const sequelize = require('../../util/database');
+const Question = require('../models/pregunta.model');
 
 const Survey = sequelize.define('Survey', {
     id:{
-        type: DataTypes.UUIDV1,
-        allowNull: false,
-        autoIncrement: true,
+        type: DataTypes.UUID,
         primaryKey:true
     },
     fecha: {
@@ -22,5 +20,7 @@ const Survey = sequelize.define('Survey', {
         timestamps: false
   });
   
+  Survey.hasMany(Question, {foreignKey: 'id_encuesta'})
+
 
   module.exports = Survey;

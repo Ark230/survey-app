@@ -5,8 +5,6 @@ const sequelize = require('../../util/database')
 const UserAnswer = sequelize.define('UserAnswer', {
     id:{
         type: DataTypes.UUIDV1,
-        allowNull: false,
-        autoIncrement: true,
         primaryKey:true
     },
     id_usuario:{
@@ -31,5 +29,9 @@ const UserAnswer = sequelize.define('UserAnswer', {
         timestamps: false
   });
   
+ UserAnswer.hasOne(User, {foreignKey: 'id_usuario'});
+ UserAnswer.hasOne(Question, {foreignKey: 'id_pregunta'});
+ UserAnswer.hasOne(Option, {foreignKey: 'id_respuesta'});
+
 
   module.exports = UserAnswer;

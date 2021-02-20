@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import Login from './pages/login/login.component';
 import Home from './pages/home/home.component';

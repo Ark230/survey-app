@@ -13,7 +13,7 @@ const Home = ({user}) => {
             <SideBar/>
             <Switch>
                  <Route exact path="/manage" component={SurveyManagement}/>
-                 <Route exact path="/update" component={SurveyUpdate}/>
+                 <Route path="/manage/survey/:id" component={SurveyUpdate}/>
             </Switch>
         </div>    
 

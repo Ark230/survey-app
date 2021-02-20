@@ -1,18 +1,24 @@
 import React from 'react';
 import './survey-item-styles.scss';
+import { Link } from 'react-router-dom';
+import SurveyUpdate from '../../pages/survey-update/survey-update.component';
 
-const SurveyItem = () => {
 
+const SurveyItem = (props) => {
+   const {nombre, preguntas, fecha, id} = props.detail;
+   
     return(
         <div className="survey-list__item">
             <div className="survey-list__item--info">
-                <h2>Mascota Favorita</h2>
-                <p>Preguntas: </p>
+                <h2>{nombre}</h2>
+                <p>Preguntas:  {preguntas}</p>
             </div>
             <div className="survey-list__item--date">
-                <p>7/2/21</p>
+                <p>{fecha}</p>
             </div>
-            <button className="button item-button">Editar</button>
+            <Link to={"/manage/survey/" + id}>
+                <button className="button item-button">Editar</button>
+            </Link>    
         </div>
     )
 

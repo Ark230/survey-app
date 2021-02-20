@@ -1,12 +1,10 @@
 const {DataTypes} = require("sequelize");
 const sequelize = require('../../util/database')
-
+const Option = require('../models/opcion.model');
 
 const Question = sequelize.define('Question', {
         id:{
-            type: DataTypes.UUIDV1,
-            allowNull: false,
-            autoIncrement: true,
+            type: DataTypes.UUID,
             primaryKey:true
         },
         descripcion:{
@@ -23,5 +21,14 @@ const Question = sequelize.define('Question', {
         timestamps: false
   });
   
+//   Question.associate = function(models) {
+//     Question.hasMany(models.option, {
+//       foreignKey: 'id_pregunta'
+//     })
+//   };
 
-  module.exports = Question;
+
+Question.hasMany(Option, {foreignKey: 'id_pregunta'});
+
+
+module.exports = Question;
