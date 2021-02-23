@@ -1,0 +1,33 @@
+
+.survey-update__question{
+
+
+    .input{
+        border: none;
+        border-bottom: 1px solid black;
+        margin: 0 .5rem;
+
+        &:focus{
+            outline: none;
+        }
+    }
+
+
+    .survey-update__answers{
+        margin-top: 1rem;
+        ul{
+            list-style: none;
+            li{
+                &:not(:last-child){
+                margin-bottom: 1rem;
+                    
+                }
+            }
+        
+        }
+
+    }
+
+
+
+}
