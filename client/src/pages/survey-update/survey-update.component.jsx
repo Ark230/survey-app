@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './survey-update.styles.scss';
 import { withRouter } from 'react-router-dom';
 import Question from '../../components/question/question.component';
+import {connect} from 'react-redux';
+import { LoadSurveys } from '../../redux/survey/survey.actions';
 
-
-
-
-const SurveyUpdate = ({match}) => {
+const SurveyUpdate = ({match, loadSurveys}) => {
     const [surveyQuestions, setSurveyQuestions] = useState({});
     const {params} = match;
 
@@ -14,6 +13,7 @@ const SurveyUpdate = ({match}) => {
         const getSurveyQuestions = async () => {
             const response = await fetch(`http://localhost:4000/manage/survey/${params.id}`);
             const questions = await response.json();
+           // loadSurveys(questions);
             setSurveyQuestions(questions);
         }
 
@@ -46,13 +46,13 @@ const SurveyUpdate = ({match}) => {
                                 let optionId = 0;
                 
                                 return (Object.keys(question).length === 0) ? 
-                                    <Question optionId={optionId}/> :
-                                    <Question questionDetail={question} optionId={optionId}/>
+                                    <Question key={question.id} optionId={optionId} surveyId={params.id}/> :
+                                    <Question key={question.id} questionDetail={question} optionId={optionId} surveyId={params.id}/>
                    
                             })
                             
                             }
-                </form> 
+            </form> 
 
                <button className="button btn-form" onClick={addQuestion}>Add question</button> 
         </div>
@@ -60,5 +60,8 @@ const SurveyUpdate = ({match}) => {
 
 }
 
+const mapDispatchToProps = (dispatch) =>({
+    loadSurveys: questions => dispatch(LoadSurveys(questions))
+});
 
-export default withRouter(SurveyUpdate);
+export default withRouter(connect(null, mapDispatchToProps)(SurveyUpdate));

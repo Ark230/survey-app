@@ -6,5 +6,6 @@ const QuestionController = require('../controllers/question.controller');
 
 router.route('/').get(SurveyController.getSurveys);
 router.route('/survey/:id').get(QuestionController.getQuestionsBySurveyId);
+// router.route('/test').get(SurveyController.getSurveys);
 
 module.exports = router;
