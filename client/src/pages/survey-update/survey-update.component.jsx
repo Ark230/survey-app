@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import { LoadSurveys } from '../../redux/survey/survey.actions';
 
 const SurveyUpdate = ({match, loadSurveys}) => {
-    const [surveyQuestions, setSurveyQuestions] = useState({});
+    const [surveyQuestions, setSurveyQuestions] = useState([]);
     const {params} = match;
 
     useEffect(() => {
@@ -26,10 +26,15 @@ const SurveyUpdate = ({match, loadSurveys}) => {
 
     }
 
+    //retrieves the maxId of questions and creates and object just with that property, updating the state
     const addQuestion = () => {
 
-        const questions = surveyQuestions;
-        questions.push({});
+        const questions = [].concat(surveyQuestions);
+        const idArray = questions.map(({id}) => {
+            return id;
+        });
+        questions.push({id: (Math.max(...idArray))+1, descripcion_pregunta:'', Options:[]})
+        
         const newQuestions = [...questions];
         setSurveyQuestions(newQuestions);
 
@@ -44,12 +49,10 @@ const SurveyUpdate = ({match, loadSurveys}) => {
                             { Object.keys(surveyQuestions).length === 0 ? <h1>Loading</h1> : surveyQuestions.map(question => {
                                 // uses an accumulator to transform the option id into a letter, resets it per every question
                                 let optionId = 0;
-                
-                                return (Object.keys(question).length === 0) ? 
-                                    <Question key={question.id} optionId={optionId} surveyId={params.id}/> :
-                                    <Question key={question.id} questionDetail={question} optionId={optionId} surveyId={params.id}/>
-                   
-                            })
+                                return (
+                                    <Question key={question.id} questionDetail={question} optionId={optionId} surveyId={params.id}/> )
+
+                                })
                             
                             }
             </form> 

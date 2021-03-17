@@ -14,8 +14,10 @@ const Question = (props) => {
 
  
     useEffect(() => {
-   
-        if(Object.keys(questions).length === 0 ) setQuestions(questionDetail);
+        console.log('wadup');
+        if(Object.keys(questions).length === 0 && questionDetail !== undefined){
+            setQuestions(questionDetail);
+        }
         
     }, [questions, questionDetail]) 
 
@@ -45,47 +47,94 @@ const handleChange = event => {
 };
 
 const saveChanges = event => {
-    console.log(event.target.value);
-
    saveSurveyQuestions(questions, surveyId);
 }
 
- return  (questionDetail === undefined) ? 
 
-    (<div className="survey-update__question">
-        <span>¿</span>
-            <input type="text" className="input"/>
-        <span>?</span>
-
-        <div className="survey-update__answers">
-            <ul>
-                <li>a)<input type="text" className="input"/></li>
-                <li>b)<input type="text" className="input"/></li>
-                <li>c)<input type="text" className="input"/></li>
-            </ul>
-        </div>
-    </div>) 
+return(
     
-    :
+    <div className="survey-update__question">
+         <span>¿</span>        
+             <input key={questionDetail.id} onChange={handleChange} onBlur={saveChanges} name="descripcion_pregunta" type="text" className="input" value={questions.descripcion_pregunta || ''}/>
+         <span>?</span>
+         
+             {!!questions === true ? <h1>Loading</h1>: <h1>Hello</h1>}
 
-    (<div className="survey-update__question">
-        <span>¿</span>        
-            <input key={questionDetail.id} onChange={handleChange} onBlur={saveChanges} name="descripcion_pregunta" type="text" className="input" value={questions.descripcion_pregunta || ''}/>
-        <span>?</span>
-        
-            {Object.keys(questions).length >0 ? questions.Options.map(option => {
-                optionId++;
+
+             {/* {questions.Options.length >0 ? questions.Options.map(option => {
+                 optionId++;
                 
-                return (
-                    <div key={option.id} className="survey-update__answers">
-                        <ul>
-                            <li >{String.fromCharCode(96 + optionId)})<input onBlur={saveChanges} onChange={handleChange} name={'option' + option.id} type="text" className="input" value={option.descripcion || ''}/></li>
-                        </ul>
-                    </div>
-                )
+                 return (
+                     <div key={option.id} className="survey-update__answers">
+                         <ul>
+                             <li >{String.fromCharCode(96 + optionId)})<input onBlur={saveChanges} onChange={handleChange} name={'option' + option.id} type="text" className="input" value={option.descripcion || ''}/></li>
+                         </ul>
+                     </div>
+                 )
                 
-            }) : undefined}
-    </div>) 
+             }) : (
+                
+                     <div className="survey-update__answers">
+                         <ul>
+                             <li>a)<input type="text" className="input"/></li>
+                             <li>b)<input type="text" className="input"/></li>
+                             <li>c)<input type="text" className="input"/></li>
+                         </ul>
+                     </div>
+                 )
+             } */}
+     </div>)
+
+//  return  (questionDetail === undefined) ? 
+
+//     (<div className="survey-update__question">
+//         <span>¿</span>
+//             <input type="text" className="input"/>
+//             <input key={questionDetail.id} onChange={handleChange} onBlur={saveChanges} name="descripcion_pregunta" type="text" className="input" value={questions.descripcion_pregunta || ''}/>
+//         <span>?</span>
+
+//         <div className="survey-update__answers">
+//             <ul>
+//                 <li>a)<input type="text" className="input"/></li>
+//                 <li>b)<input type="text" className="input"/></li>
+//                 <li>c)<input type="text" className="input"/></li>
+//             </ul>
+//         </div>
+//     </div>) 
+    
+//     :
+
+//     (<div className="survey-update__question">
+//         <span>¿</span>        
+//             <input key={questionDetail.id} onChange={handleChange} onBlur={saveChanges} name="descripcion_pregunta" type="text" className="input" value={questions.descripcion_pregunta || ''}/>
+//         <span>?</span>
+            
+//             {!!questions === true ? <h1>Loading</h1>: <h1>Hello</h1>}
+
+
+//             {/* {questions.Options.length >0 ? questions.Options.map(option => {
+//                 optionId++;
+                
+//                 return (
+//                     <div key={option.id} className="survey-update__answers">
+//                         <ul>
+//                             <li >{String.fromCharCode(96 + optionId)})<input onBlur={saveChanges} onChange={handleChange} name={'option' + option.id} type="text" className="input" value={option.descripcion || ''}/></li>
+//                         </ul>
+//                     </div>
+//                 )
+                
+//             }) : (
+                
+//                     <div className="survey-update__answers">
+//                         <ul>
+//                             <li>a)<input type="text" className="input"/></li>
+//                             <li>b)<input type="text" className="input"/></li>
+//                             <li>c)<input type="text" className="input"/></li>
+//                         </ul>
+//                     </div>
+//                 )
+//             } */}
+//     </div>) 
 
 }
 
