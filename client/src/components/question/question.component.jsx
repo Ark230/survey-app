@@ -14,7 +14,6 @@ const Question = (props) => {
 
  
     useEffect(() => {
-        console.log('wadup');
         if(Object.keys(questions).length === 0 && questionDetail !== undefined){
             setQuestions(questionDetail);
         }

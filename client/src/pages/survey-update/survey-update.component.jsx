@@ -3,18 +3,19 @@ import './survey-update.styles.scss';
 import { withRouter } from 'react-router-dom';
 import Question from '../../components/question/question.component';
 import {connect} from 'react-redux';
-import { LoadSurveys } from '../../redux/survey/survey.actions';
+import { LoadSurveys, fetchSurveys } from '../../redux/survey/survey.actions';
 
-const SurveyUpdate = ({match, loadSurveys}) => {
+const SurveyUpdate = ({match, fetchSurveys}) => {
     const [surveyQuestions, setSurveyQuestions] = useState([]);
     const {params} = match;
 
     useEffect(() => {
         const getSurveyQuestions = async () => {
-            const response = await fetch(`http://localhost:4000/manage/survey/${params.id}`);
-            const questions = await response.json();
+            // fetchSurveys();
+            // const response = await fetch(`http://localhost:4000/manage/survey/${params.id}`);
+            // const questions = await response.json();
            // loadSurveys(questions);
-            setSurveyQuestions(questions);
+            //setSurveyQuestions(questions);
         }
 
         getSurveyQuestions();
@@ -64,7 +65,7 @@ const SurveyUpdate = ({match, loadSurveys}) => {
 }
 
 const mapDispatchToProps = (dispatch) =>({
-    loadSurveys: questions => dispatch(LoadSurveys(questions))
+    fetchSurveys: () => dispatch(fetchSurveys())
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(SurveyUpdate));

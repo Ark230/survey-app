@@ -4,7 +4,9 @@ import { EditSurveyQuestions } from './survey.util';
 
 
 const INITIAL_STATE = {
-    surveys: {}
+    surveys: [],
+    isFetching: false,
+    errorMessage:{}
 }
 
 export const SurveyReducer = (state = INITIAL_STATE, action) => {
@@ -14,9 +16,17 @@ export const SurveyReducer = (state = INITIAL_STATE, action) => {
     
         case SurveyTypes.EDIT_SURVEY:
             return {...state, surveys: EditSurveyQuestions(state.surveys, action.payload)};
+        
+        case SurveyTypes.FETCH_SURVEYS_START:
+            return {...state, isFetching: true};  
+            
+                
+        case SurveyTypes.FETCH_SURVEYS_SUCCESS:
+            return {...state, isFetching: false, surveys: action.payload};  
 
-        case SurveyTypes.LOAD_SURVEYS:
-            return {...state, surveys: action.payload};  
+
+        case SurveyTypes.FETCH_SURVEYS_FAILURE:
+            return {...state, isFetching: false, errorMessage: action.payload};  
         
         default:
             return state;
