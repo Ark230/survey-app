@@ -11,10 +11,11 @@ export const EditSurvey = (questions, surveyId) => ({
     payload: {questions, surveyId}
 });
 
-// export const LoadSurveys = (surveys) => ({
-//     type: SurveyTypes.LOAD_SURVEYS,
-//     payload: surveys
-// })
+export const addSurveyQuestion = (questions, surveyId) => ({
+    type: SurveyTypes.ADD_SURVEY_QUESTION,
+    payload: {questions, surveyId}
+});
+
 
 export const fetchSurveysStart = () => ({
     type: SurveyTypes.FETCH_SURVEYS_START

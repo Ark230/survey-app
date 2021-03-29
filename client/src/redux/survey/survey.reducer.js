@@ -1,10 +1,10 @@
-import { SaveSurvey, EditSurvey } from "./survey.actions";
+import { SaveSurvey } from "./survey.actions";
 import { SurveyTypes } from "./survey.types";
-import { EditSurveyQuestions } from './survey.util';
+import { EditSurveyQuestions, addQuestion } from './survey.util';
 
 
 const INITIAL_STATE = {
-    surveys: [],
+    data: [],
     isFetching: false,
     errorMessage:{}
 }
@@ -12,17 +12,20 @@ const INITIAL_STATE = {
 export const SurveyReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SurveyTypes.SAVE_SURVEY:
-            return {...state, surveys: SaveSurvey(action.payload)};
+            return {...state, data: SaveSurvey(action.payload)};
     
         case SurveyTypes.EDIT_SURVEY:
-            return {...state, surveys: EditSurveyQuestions(state.surveys, action.payload)};
-        
+            return {...state, data: EditSurveyQuestions(state.data, action.payload)};
+
+        case SurveyTypes.ADD_SURVEY_QUESTION:
+            return {...state, data: addQuestion(state.data, action.payload)};
+
         case SurveyTypes.FETCH_SURVEYS_START:
             return {...state, isFetching: true};  
             
                 
         case SurveyTypes.FETCH_SURVEYS_SUCCESS:
-            return {...state, isFetching: false, surveys: action.payload};  
+            return {...state, isFetching: false, data: action.payload};  
 
 
         case SurveyTypes.FETCH_SURVEYS_FAILURE:
