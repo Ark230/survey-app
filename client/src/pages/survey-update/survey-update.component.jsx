@@ -3,30 +3,38 @@ import './survey-update.styles.scss';
 import { withRouter } from 'react-router-dom';
 import Question from '../../components/question/question.component';
 import {connect} from 'react-redux';
-import { LoadSurveys, fetchSurveys, addSurveyQuestion } from '../../redux/survey/survey.actions';
+import { addSurveyQuestion } from '../../redux/survey/survey.actions';
 import { selectQuestionsBySurvey } from '../../redux/survey/survey.selectors';
-import { addQuestion } from '../../redux/survey/survey.util';
+import axios from 'axios';
+import {memoize} from 'lodash'
 
-const SurveyUpdate = ({match, addQuestion, surveyQuestionsz}) => {
+const SurveyUpdate = ({match, addQuestion, questionsLoaded}) => {
     const [surveyQuestions, setSurveyQuestions] = useState([]);
     const {params} = match;
 
     useEffect(() => {
 
-        const destructured = surveyQuestionsz[0];
-        
-        setSurveyQuestions(destructured);
-    
-        
+        const [questions] = questionsLoaded;
+        setSurveyQuestions(questions);
+
     }, []);
 
     const saveChanges = (event) => {
         event.preventDefault();
-        console.log('triggered?');
-
+        saveChangesToDb(questionsLoaded);
     }
 
-    //retrieves the maxId of questions and creates and object just with that property, updating the state
+    const saveChangesToDb = memoize((questions) => {
+            axios.post(`http://localhost:4000/manage/survey/${params.id}`,
+            {...questions}).then((response) => {
+                                    console.log(response);
+                        }, (error) => {
+                                    console.log(error);
+            });
+
+    });
+
+    //retrieves the maxId of questions(last question) and creates and object just with that property, updating the state
     const addQuestionToSurvey = () => {
 
         const questions = [].concat(surveyQuestions);
@@ -39,7 +47,7 @@ const SurveyUpdate = ({match, addQuestion, surveyQuestionsz}) => {
         const maxIdOption = Math.max(...options);
         
 
-        questions.push({id: maxIdQuestion+1, descripcion:'', Options:[{id: maxIdOption+1, descripcion:'', id_pregunta: maxIdQuestion}, {id: maxIdOption+2, descripcion:'', id_pregunta: maxIdQuestion}, {id: maxIdOption+3, descripcion:'', id_pregunta: maxIdQuestion}]})
+        questions.push({id: maxIdQuestion+1, descripcion:'', id_encuesta:params.id, Options:[{id: maxIdOption+1, descripcion:'', id_pregunta: maxIdQuestion+1}, {id: maxIdOption+2, descripcion:'', id_pregunta: maxIdQuestion+1}, {id: maxIdOption+3, descripcion:'', id_pregunta: maxIdQuestion+1}]})
         
         const newQuestions = [...questions];
 
@@ -75,7 +83,7 @@ const SurveyUpdate = ({match, addQuestion, surveyQuestionsz}) => {
 
 
 const mapStateToProps = (state, ownProps) => ({
-    surveyQuestionsz: selectQuestionsBySurvey(ownProps.match.params.id)(state)
+    questionsLoaded: selectQuestionsBySurvey(ownProps.match.params.id)(state)
 
 })
 

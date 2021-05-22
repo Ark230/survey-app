@@ -8,6 +8,7 @@ const db = require('./util/database');
 
 const surveyRoutes = require('./routes/survey');
 app.use(cors());
+app.use(express.json())
 app.use('/manage', surveyRoutes);
 
 // db.sync().then(() => {
