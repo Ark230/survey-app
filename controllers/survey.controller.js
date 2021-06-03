@@ -36,13 +36,14 @@ exports.updateSurveyQuestions = async (req, res) => {
     try {
             const response = req.body;
             const questions = response['0'];
-
+            
             const bdQuestions = await getQuestionsBySurvey(1);
             
             let questionChanges = [];
             let optionChanges = {};
             let finalArray = [];
             let optionsLength = 0;
+            let insideOptionsObject = false;
 
             function isObject(object) {
                 return object != null && typeof object === 'object';
@@ -55,7 +56,7 @@ exports.updateSurveyQuestions = async (req, res) => {
             for (const key of keys2) {
                 const val1 = object1[key];
                 const val2 = object2[key];
-
+                
                 const areObjects = isObject(val1) && isObject(val2);
                 //Si el val1 es undefined es porque es una pregunta nueva
                 if(val1 === undefined){
@@ -64,28 +65,34 @@ exports.updateSurveyQuestions = async (req, res) => {
                     continue;
                 }
 
-            if(areObjects && key === 'Options'){ 
-                optionChanges = {[key] : []};
-                optionsLength = object2['Options'].length;
+                if(optionChanges !== undefined && optionsLength > 0 && insideOptionsObject === true && key === 'descripcion'){
+                    
+                    optionsLength--;
+                
+                }else if(optionChanges !== undefined && optionsLength === 0 && insideOptionsObject === true){
+                    //cuando llegue a 0 actualizar pregunta
+                    optionChanges = {};
+                    insideOptionsObject = false;
                 }
+
+                if(areObjects && key === 'Options'){ 
+                    optionChanges = {[key] : []};
+                    optionsLength = object2['Options'].length;
+                    insideOptionsObject = true;
+                }
+
+              
 
                 if (
                 areObjects && !compareQuestions(val1, val2) ||
                 !areObjects && val1 !== val2
                 ) {
-
-                    if(optionsLength > 0){
-                        optionsLength--;
-                    // console.log(optionsLength);
-                    }else if(optionsLength === 0){
-                        //cuando llegue a 0 actualizar pregunta
-                    optionChanges = {};
-                    }
+                    console.log(object2, 'ob2', object1, 'ob1');
 
                 //si es mayor a 0 es porque se deben agregar opciones. sino es porque
                 //se debe cambiar solo la descripcion de la pregunta
                 if(Object.keys(optionChanges).length > 0){
-                            
+                    console.log('you shouldnt be here');
                     
                     const [keys3] = Object.keys(optionChanges);
                     //optioChanges['Options'] si no se han agregado cambios de opciones aun
@@ -123,15 +130,15 @@ exports.updateSurveyQuestions = async (req, res) => {
                             questionChanges.forEach(change => {
                                 if(change.id === object2['id_pregunta']){
                                     change.Options = Options
+                                    console.log("you shouldn't be here");
                                 }
                             });
-
-                            //testArray[0].Options = Options;					
+				
 
                     }
                 
                 }else{
-                
+                    console.log('why tho');
                     questionChanges.push({id:object2['id'], [key]: val2});
 
                 }
@@ -141,7 +148,6 @@ exports.updateSurveyQuestions = async (req, res) => {
 
                 if(questionChanges.length > 0) {
                     finalArray.push(...questionChanges);
-                    console.log(finalArray, questionChanges, 'finalArray and QuestionChanges');
                 }
                 
                 questionChanges = [];
@@ -153,12 +159,12 @@ exports.updateSurveyQuestions = async (req, res) => {
             compareQuestions(bdQuestions, questions);
 
             finalArray.map(async (question) => {
-
+                console.log(question, 'insideeeee new');
                 const questionsExists = await Question.findByPk(question.id);
 
                 if(questionsExists !== null){
                     Question.update({descripcion: question.descripcion},
-                        { where: { id: question.id} }).then(r => console.log(r));
+                        { where: { id: question.id} }).then(r => console.log(r, 'questionExists'));
                     
                     if(question.hasOwnProperty('Options')){
                         question.Options.map(option => {
@@ -167,8 +173,6 @@ exports.updateSurveyQuestions = async (req, res) => {
 
                     }
                 }else{
-                    console.log('entered here to create the question');
-                    //--> Para crear pregunta falta obtener el numero de encuesta
 
                     Question.create({descripcion: question.descripcion, id_encuesta: question.id_encuesta}).then(r => {
 
@@ -183,7 +187,6 @@ exports.updateSurveyQuestions = async (req, res) => {
                 }
           
             }
-            
             
             );
             
@@ -216,5 +219,7 @@ const getQuestionsBySurvey = async (id) => {
     }
 
 }
+
+
 
     

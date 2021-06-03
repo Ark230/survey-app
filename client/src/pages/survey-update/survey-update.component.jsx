@@ -41,13 +41,14 @@ const SurveyUpdate = ({match, addQuestion, questionsLoaded}) => {
         const idArray = questions.map(({id}) => id);
         const maxIdQuestion = Math.max(...idArray);
 
-        
         const maxQuestion = questions.filter(question => question.id === maxIdQuestion);
         const options = maxQuestion[0].Options.map(({id}) => id);
         const maxIdOption = Math.max(...options);
-        
 
-        questions.push({id: maxIdQuestion+1, descripcion:'', id_encuesta:params.id, Options:[{id: maxIdOption+1, descripcion:'', id_pregunta: maxIdQuestion+1}, {id: maxIdOption+2, descripcion:'', id_pregunta: maxIdQuestion+1}, {id: maxIdOption+3, descripcion:'', id_pregunta: maxIdQuestion+1}]})
+        questions.push({id: maxIdQuestion+1, descripcion:'', id_encuesta:params.id, 
+                        Options:[{id: maxIdOption+1, descripcion:'', id_pregunta: maxIdQuestion+1},
+                                 {id: maxIdOption+2, descripcion:'', id_pregunta: maxIdQuestion+1},
+                                 {id: maxIdOption+3, descripcion:'', id_pregunta: maxIdQuestion+1}]})
         
         const newQuestions = [...questions];
 

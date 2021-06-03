@@ -1,7 +1,6 @@
 const Question = require('../sequelize/models/pregunta.model');
 const Option = require('../sequelize/models/opcion.model');
-const sequelize = require('../util/database');
-const { QueryTypes } = require('sequelize');
+
 
 exports.getQuestionsBySurveyId = async (req, res) => {
     try {
@@ -23,3 +22,21 @@ exports.getQuestionsBySurveyId = async (req, res) => {
 
 };
 
+
+exports.deleteQuestionFromSurvey = async (req, res) => {
+  try {
+      Option.destroy({
+        where: {
+          id_pregunta: req.params.id
+        }
+      });
+      Question.destroy({
+        where:{
+          id: req.params.id
+        }
+      });
+  } catch (error) {
+      console.log(error);
+  }
+
+}

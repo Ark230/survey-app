@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
 import './question.styles.scss';
+import TrashCan from '../../assets/trash.svg';
 import { EditSurvey } from '../../redux/survey/survey.actions';
+import axios from 'axios';
+
 
 
 const Question = (props) => {
@@ -45,6 +48,18 @@ const handleChange = event => {
 
 };
 
+const handleDelete = event => {
+    const ptrn = /\d/g;
+    const match = (event.target.name).match(ptrn);
+    let questionIdConcat = "";
+    match.forEach(num => questionIdConcat = questionIdConcat + num);
+
+    axios.delete(`http://localhost:4000/manage/survey/${questionDetail.id_encuesta}/question/${questionIdConcat}`)
+    .then(response => console.log(response), 
+          error => console.log(error));
+
+}
+
 const saveChanges = event => {
     saveSurveyQuestions(questions, surveyId);
 }
@@ -53,8 +68,9 @@ return(
     <div>
             <div className="survey-update__question">
                 <span>¿</span>        
-                <input key={questionDetail.id} onChange={handleChange} onBlur={saveChanges} name="descripcion" type="text" className="input" value={questions.descripcion || ''}/>
-            <span>?</span>
+                     <input key={questionDetail.id} onChange={handleChange} onBlur={saveChanges} name="descripcion" type="text" className="input" value={questions.descripcion || ''}/>
+                <span>?</span>
+                <a onClick={handleDelete}><img src={TrashCan} alt="trash can logo" name={`question-${questionDetail.id}`} className="trash-can-logo"/></a>
 
             {
 
