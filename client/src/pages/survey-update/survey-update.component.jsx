@@ -2,22 +2,24 @@ import React, { useEffect, useState } from 'react';
 import './survey-update.styles.scss';
 import { withRouter } from 'react-router-dom';
 import Question from '../../components/question/question.component';
+import withSpinner from '../../components/with-spinner/with-spinner.component';
 import {connect} from 'react-redux';
 import { addSurveyQuestion } from '../../redux/survey/survey.actions';
-import { selectQuestionsBySurvey } from '../../redux/survey/survey.selectors';
+import { selectIsFetching, selectQuestionsBySurvey } from '../../redux/survey/survey.selectors';
 import axios from 'axios';
 import {memoize} from 'lodash'
+import { compose } from 'redux';
 
-const SurveyUpdate = ({match, addQuestion, questionsLoaded}) => {
+
+const SurveyUpdate = ({match, addQuestion, questionsLoaded, isFetching}) => {
     const [surveyQuestions, setSurveyQuestions] = useState([]);
     const {params} = match;
 
     useEffect(() => {
-
         const [questions] = questionsLoaded;
         setSurveyQuestions(questions);
 
-    }, []);
+    }, [questionsLoaded]);
 
     const saveChanges = (event) => {
         event.preventDefault();
@@ -45,7 +47,7 @@ const SurveyUpdate = ({match, addQuestion, questionsLoaded}) => {
         const options = maxQuestion[0].Options.map(({id}) => id);
         const maxIdOption = Math.max(...options);
 
-        questions.push({id: maxIdQuestion+1, descripcion:'', id_encuesta:params.id, 
+        questions.push({id: maxIdQuestion+1, descripcion:'', id_encuesta:parseInt(params.id), 
                         Options:[{id: maxIdOption+1, descripcion:'', id_pregunta: maxIdQuestion+1},
                                  {id: maxIdOption+2, descripcion:'', id_pregunta: maxIdQuestion+1},
                                  {id: maxIdOption+3, descripcion:'', id_pregunta: maxIdQuestion+1}]})
@@ -84,12 +86,17 @@ const SurveyUpdate = ({match, addQuestion, questionsLoaded}) => {
 
 
 const mapStateToProps = (state, ownProps) => ({
-    questionsLoaded: selectQuestionsBySurvey(ownProps.match.params.id)(state)
-
+    questionsLoaded: selectQuestionsBySurvey(ownProps.match.params.id)(state),
+    isFetching: selectIsFetching(state)
 })
 
 const mapDispatchToProps = (dispatch) =>({
     addQuestion: (question, id) => dispatch(addSurveyQuestion(question, id))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SurveyUpdate));
+export default compose(withRouter
+                       ,connect(mapStateToProps,mapDispatchToProps)
+                       ,withSpinner
+                       )(SurveyUpdate)
+
+

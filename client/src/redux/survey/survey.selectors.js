@@ -7,6 +7,8 @@ export const selectSurveyData = createSelector([selectSurvey], surveys => survey
 
 export const selectIsSurveyDataLoaded = createSelector([selectSurvey], surveys => surveys.data.length >0 ? true : false);
 
+export const selectIsFetching = createSelector([selectSurvey], surveys => surveys.isFetching);
+
 export const selectQuestionsBySurvey = memoize(surveyUrlParam => createSelector([selectSurvey], surveys => surveys.data.map(survey => {if(survey.id === parseInt(surveyUrlParam)) return survey.Questions;})))
 
 // export const selectQuestionsBySurvey = memoize(surveyUrlParam => createSelector([selectSurvey], surveys => {console.log(surveys); return [];}))

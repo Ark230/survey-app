@@ -5,7 +5,7 @@ const Option = require('../sequelize/models/opcion.model');
 const Question = require('../sequelize/models/pregunta.model');
 const sequelize = require('../util/database');
 const { QueryTypes } = require('sequelize');
-const deepEqual = require ('./util/survey.util');
+
 
 exports.getSurveys = async (req, res) => {
     try {

@@ -1,6 +1,6 @@
 import { SaveSurvey } from "./survey.actions";
 import { SurveyTypes } from "./survey.types";
-import { EditSurveyQuestions, addQuestion } from './survey.util';
+import { EditSurveyQuestions, addQuestion, deleteQuestion } from './survey.util';
 
 
 const INITIAL_STATE = {
@@ -19,14 +19,21 @@ export const SurveyReducer = (state = INITIAL_STATE, action) => {
 
         case SurveyTypes.ADD_SURVEY_QUESTION:
             return {...state, data: addQuestion(state.data, action.payload)};
+        
+        case SurveyTypes.DELETE_QUESTION_START:
+            return {...state, isFetching: true};
+
+        case SurveyTypes.DELETE_QUESTION_FAILURE:
+            return {...state, isFetching: false, errorMessage: action.payload};
+        
+        case SurveyTypes.DELETE_QUESTION_SUCCESS:
+            return {...state, isFetching: false, data: deleteQuestion(state.data, action.payload)};    
 
         case SurveyTypes.FETCH_SURVEYS_START:
             return {...state, isFetching: true};  
-            
                 
         case SurveyTypes.FETCH_SURVEYS_SUCCESS:
             return {...state, isFetching: false, data: action.payload};  
-
 
         case SurveyTypes.FETCH_SURVEYS_FAILURE:
             return {...state, isFetching: false, errorMessage: action.payload};  

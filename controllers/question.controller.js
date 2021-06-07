@@ -35,6 +35,7 @@ exports.deleteQuestionFromSurvey = async (req, res) => {
           id: req.params.id
         }
       });
+      res.end();
   } catch (error) {
       console.log(error);
   }

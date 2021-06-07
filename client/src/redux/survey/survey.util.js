@@ -41,3 +41,21 @@ export const addQuestion = (surveys, updatedData) => {
      return updatedSurveys;
 
 }
+
+export const deleteQuestion = (surveys, dataForUpdate) => {
+     const {surveyId, questionId} = dataForUpdate;
+
+     const sur = surveys.map(survey => {
+          if(survey.id === surveyId){
+
+                    const updatedQuestions = survey.Questions.filter(question => question.id !== parseInt(questionId));
+                    survey.Questions = [].concat(updatedQuestions);
+     
+                    return survey;
+          }
+     });
+
+     console.log(sur);
+     return sur;
+     
+}

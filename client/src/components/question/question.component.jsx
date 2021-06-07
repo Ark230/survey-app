@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
 import './question.styles.scss';
 import TrashCan from '../../assets/trash.svg';
-import { EditSurvey } from '../../redux/survey/survey.actions';
+import { deleteSurveyQuestion, EditSurvey } from '../../redux/survey/survey.actions';
 import axios from 'axios';
 
 
 
 const Question = (props) => {
- let {optionId, surveyId, saveSurveyQuestions, ide} = props;
+ let {optionId, surveyId, saveSurveyQuestions, deleteSurveyQuestion2} = props;
    
 
  const [questions, setQuestions] = useState({});
@@ -54,9 +54,8 @@ const handleDelete = event => {
     let questionIdConcat = "";
     match.forEach(num => questionIdConcat = questionIdConcat + num);
 
-    axios.delete(`http://localhost:4000/manage/survey/${questionDetail.id_encuesta}/question/${questionIdConcat}`)
-    .then(response => console.log(response), 
-          error => console.log(error));
+    deleteSurveyQuestion2(questionDetail.id_encuesta, questionIdConcat);
+   
 
 }
 
@@ -97,7 +96,8 @@ return(
 }
 
 const mapDispatchToProps = dispatch => ({
-    saveSurveyQuestions: (questions, id) => dispatch(EditSurvey(questions, id))
+    saveSurveyQuestions: (questions, id) => dispatch(EditSurvey(questions, id)),
+    deleteSurveyQuestion2: (surveyId, questionId) => dispatch(deleteSurveyQuestion(surveyId, questionId))
 });
 
 

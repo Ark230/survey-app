@@ -16,6 +16,39 @@ export const addSurveyQuestion = (questions, surveyId) => ({
     payload: {questions, surveyId}
 });
 
+export const deleteSurveyQuestionStart = () => ({
+    type: SurveyTypes.DELETE_QUESTION_START
+})
+
+export const deleteSurveyQuestionSuccess = (dataToDelete) => ({
+    type: SurveyTypes.DELETE_QUESTION_SUCCESS,
+    payload: dataToDelete
+})
+
+export const deleteSurveyQuestionFailure = (errMessage) => ({
+    type: SurveyTypes.DELETE_QUESTION_FAILURE,
+    payload: errMessage
+})
+//delete funciona, pero da error al 
+//intentar eliminar la pregunta sin haber presionado guardar antes
+export const deleteSurveyQuestion = (surveyId, questionId) => {
+    return async (dispatch) => {
+        try {
+            dispatch(deleteSurveyQuestionStart());
+             
+             axios.delete(`http://localhost:4000/manage/survey/${surveyId}/question/${questionId}`).then( r => 
+                                {
+                                   dispatch(deleteSurveyQuestionSuccess({surveyId, questionId}));
+                                }
+                    
+                        );
+            
+
+        } catch (error) {
+             dispatch(deleteSurveyQuestionFailure(error));
+        }
+    }
+};
 
 export const fetchSurveysStart = () => ({
     type: SurveyTypes.FETCH_SURVEYS_START
@@ -33,8 +66,8 @@ export const fetchSurveysFailure = (errMessage) => ({
 
 export const fetchSurveys = () => {
     return (dispatch) => {
-        dispatch(fetchSurveysStart());
         try {
+            dispatch(fetchSurveysStart());
             axios.get('http://localhost:4000/manage')
             .then(({data}) => dispatch(fetchSurveysSuccess(data)))
             
